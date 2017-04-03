@@ -4,7 +4,7 @@ A dockerfile for using the ARK: Survival Evolved module of the AMP server manage
 ## Environment Variables
 This Dockerfile requires a CubeCoders licence, specified as the environment variable LICENCE. An example run command for this Dockerfile is:
 
-```docker run -d -e "LICENCE=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" -p 8080:8080  -p 7777:7777 -p 27015:27015 -p 32330:32330 -v /volumes/amp:/ampdata adamant/ark-amp```
+```docker run -d -e "LICENCE=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" -p 8080:8080  -p 7777:7777/udp -p 7778:7778/udp -p 27015:27015/udp -p 32330:32330 -v /volumes/amp:/ampdata adamant/ark-amp```
 
 To rebind the port the ARK:Survival Evolved server listens on, simply replace the first intance of 7777 with the new external port. Same process for all the other ports.
 
