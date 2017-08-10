@@ -1,13 +1,10 @@
-FROM adamant/amp-base
+FROM adamant/amp
 
 USER root
 
-RUN apt-get update -qq \
- && apt-get install -qqy --no-install-recommends lib32gcc1 \
- && apt-get clean \
- && rm -rf /var/lib/apt /tmp/* /var/tmp/*
+RUN ln -s /bin/sh /bin/bash
 
-USER AMP
+USER amp
 
 ENV MODULE=ARK EXTRAS="+ARKModule.Network.GamePort 7777 +ARKModule.Network.IPBinding 0.0.0.0 +ARKModule.Server.PlayerLimit 12 +ARKModule.Network.QueryPort 27015 +ARKModule.Network.RCONPort 32330"
 
