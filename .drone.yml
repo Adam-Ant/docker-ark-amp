@@ -4,7 +4,7 @@ pipeline:
     volumes:
        - /var/run/docker.sock:/var/run/docker.sock
     commands:
-       - docker build --no-cache -t ark-amp-dev .
+       - docker build --pull --no-cache -t ark-amp-dev .
 
   test:
     image: docker
