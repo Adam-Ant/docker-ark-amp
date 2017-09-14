@@ -1,0 +1,37 @@
+pipeline:
+  build:
+    image: docker
+    volumes:
+       - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+       - docker build --no-cache -t ark-amp-dev .
+
+  test:
+    image: docker
+    volumes:
+       - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - CON_NAME=$(docker run -d --rm ark-amp-dev ark-test)
+      - timeout -t 90 /bin/sh -xc
+            "docker logs --tail=all -f $$CON_NAME 2>&1
+                | tee /dev/stderr
+                | while read line; do
+                    if grep -qm 1 'Update state (0x61) downloading, progress\:\ .*(.* / .*)'; then
+                        docker kill $$CON_NAME;
+                        exit 0;
+                    fi;
+                  done" || { docker kill $$CON_NAME; exit 37; }
+
+  publish:
+    image: docker
+    when:
+      event: [push, tag, deployment]
+    secrets: [ DOCKER_USER, DOCKER_PASS ]
+    volumes:
+       - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+       - docker tag ark-amp-dev adamant/ark-amp
+       - docker login -u $DOCKER_USER -p $DOCKER_PASS
+       - docker push adamant/ark-amp
+       - docker rmi ark-amp-dev:latest
+       - echo "CONGRATS! SUCCESSFULLY BUILT ARK:SE AMP!"

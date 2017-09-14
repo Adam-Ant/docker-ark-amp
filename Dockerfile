@@ -2,6 +2,8 @@ FROM adamant/amp
 
 USER root
 
+COPY ark-test /usr/bin
+
 # Install libstdc++ from Debian. This is an ARK/RCON dependency
 RUN cd /tmp \
  && wget http://ftp.de.debian.org/debian/pool/main/g/gcc-4.9/libstdc++6_4.9.2-10_amd64.deb \
@@ -10,7 +12,8 @@ RUN cd /tmp \
  && mv /tmp/usr/lib/x86_64-linux-gnu/libstdc++.so* /usr/lib \
  # Quickly cleanup
  && rm -rf /tmp \
- && install -dm1777 /tmp
+ && install -dm1777 /tmp \
+ && chmod +rx /usr/bin/ark-test
 
 USER amp
 
