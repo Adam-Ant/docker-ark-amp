@@ -6,7 +6,7 @@ COPY ark-test /usr/bin
 
 # Install libstdc++ from Debian. This is an ARK/RCON dependency
 RUN cd /tmp \
- && wget http://ftp.de.debian.org/debian/pool/main/g/gcc-4.9/libstdc++6_4.9.2-10_amd64.deb \
+ && wget http://ftp.de.debian.org/debian/pool/main/g/gcc-6/libstdc++6_6.3.0-18_amd64.deb \
  && dpkg-deb -x libstdc++6*.deb . \
  # We only need the lib files, everything else is debian junk.
  && mv /tmp/usr/lib/x86_64-linux-gnu/libstdc++.so* /usr/lib \
