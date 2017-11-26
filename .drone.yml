@@ -12,7 +12,7 @@ pipeline:
        - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - CON_NAME=$(docker run -dt --rm ark-amp-dev ark-test)
-      - timeout -t 90 /bin/sh -xc
+      - timeout -t 300 /bin/sh -exc
             "docker logs --tail=all -f $$CON_NAME 2>&1
                 | tee /dev/stderr
                 | while read line; do
